@@ -67,7 +67,7 @@ $(function(){
           }else if(data.fail){
             alert(data.fail)
           }else{
-            alert('なにも返ってきてないよ')
+            alert('データベースからの応答なし')
           }
         })
         .fail(function(data){
@@ -83,3 +83,35 @@ $(function(){
     })
   //})
 });
+
+$(function(){
+  $('#dicision_button').on('click', function(){
+    if(confirm('棚卸し結果を在庫に反映させてよろしいですか？（この操作は取り消せません）')){
+      $.ajax({
+        type:'POST',
+        url:'WM_web_inventory_dicision.php',
+        data:{
+          'code':'dicision'
+        },
+        dataType:'JSON'
+      })
+      .done(function(data){
+        if(data.success){
+          console.log(data.success);
+          alert(data.success);
+        }else if(data.fail){
+          alert(data.fail)
+        }else{
+          alert('データベースからの応答なし')
+          }
+        })
+      .fail(function(data){
+        alert('通信失敗');
+      })
+      
+    }else{
+      alert('キャンセルしました')
+      return false;
+      }
+  })
+})
